@@ -60,3 +60,40 @@ public:
         return maxi;
     }
 };
+
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& arr) {
+        stack<int> st;
+        int n = arr.size();
+        int maxArea = 0;
+
+        for(int i = 0; i < n; i++){
+            while(!st.empty() && arr[st.top()] >= arr[i]){
+                int element = st.top();
+                st.pop();
+
+                int nse = i;
+                int pse = st.empty() ? -1 : st.top();
+
+                int width = nse - pse - 1;
+                maxArea = max(maxArea, arr[element] * width);
+            }
+            st.push(i);
+        }
+
+        // Remaining elements
+        while(!st.empty()){
+            int element = st.top();
+            st.pop();
+
+            int nse = n;
+            int pse = st.empty() ? -1 : st.top();
+
+            int width = nse - pse - 1;
+            maxArea = max(maxArea, arr[element] * width);
+        }
+
+        return maxArea;
+    }
+};
