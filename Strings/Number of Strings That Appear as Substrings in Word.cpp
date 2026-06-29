@@ -19,7 +19,7 @@ public:
 };
 
 
-//WITHOUT FIND FUNCTION
+//WITHOUT FIND FUNCTION.
 class Solution2 {
 public:
     bool isSubstring(string pattern, string word) {
