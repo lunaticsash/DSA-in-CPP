@@ -11,6 +11,7 @@ public:
         vector<int> d{0, 1, 0, -1, 0};
         vector<vector<int>> cost(n, vector<int>(m, INT_MIN)); // dist array
         cost[0][0] = health - grid[0][0];
+        // max-heap to prioritize paths with more health left
         priority_queue<pair<int, pair<int, int>>> pq; // max pq
         pq.push({cost[0][0], {0, 0}});
 
@@ -43,6 +44,7 @@ public:
 
                     if (newHealth > cost[ni][nj]) {
 
+                        
                         cost[ni][nj] = newHealth;
                         pq.push({newHealth, {ni, nj}});
                     }
