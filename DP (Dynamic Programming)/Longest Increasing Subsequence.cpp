@@ -27,7 +27,7 @@ public:
 
 //Recursion + Memoization
 //T.c => O(n*n)
-//S.C => O(n^n) + O(n) (recursive stack space)
+//S.C => O(n*n) + O(n) (recursive stack space)
 class Solution
 {
 public:
