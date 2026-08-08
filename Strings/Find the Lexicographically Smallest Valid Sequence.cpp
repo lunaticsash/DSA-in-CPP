@@ -19,7 +19,7 @@ public:
             }
 
             --i;
-        }
+        }   
 
         vector<int> ans;
         ans.reserve(m);
