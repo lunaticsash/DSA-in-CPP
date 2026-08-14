@@ -13,13 +13,88 @@ using namespace std;
  * };
  */
 
+class BSTIterator
+{
+    stack<TreeNode *> myStack;
+    bool reverse;
 
- //Brute force 
- //TC = O(2N)
- //SC = O(N)
-class Solution {
 public:
-    void inorderforBST(TreeNode* root, vector<int>& inorder) {
+    BSTIterator(TreeNode *root, bool isReverse)
+    {
+        reverse = isReverse;
+        pushAll(root);
+    }
+
+    int next()
+    {
+        TreeNode *tempNode = myStack.top();
+        myStack.pop();
+
+        if (!reverse)
+            pushAll(tempNode->right);
+        else
+            pushAll(tempNode->left);
+
+        return tempNode->val;
+    }
+
+    bool hasNext()
+    {
+        return !myStack.empty();
+    }
+
+private:
+    void pushAll(TreeNode *node)
+    {
+        while (node != NULL)
+        {
+            myStack.push(node);
+
+            if (reverse)
+                node = node->right;
+            else
+                node = node->left;
+        }
+    }
+};
+
+class Solution
+{
+public:
+    bool findTarget(TreeNode *root, int k)
+    {
+
+        BSTIterator l(root, false); // smallest → largest
+        BSTIterator r(root, true);  // largest → smallest
+
+        int i = l.next();
+        int j = r.next();
+
+        while (i < j)
+        {
+
+            if (i + j == k)
+                return true;
+
+            else if (i + j < k)
+                i = l.next();
+
+            else
+                j = r.next();
+        }
+
+        return false;
+    }
+};
+
+// Brute force
+// TC = O(2N)
+// SC = O(N)
+class Solution
+{
+public:
+    void inorderforBST(TreeNode *root, vector<int> &inorder)
+    {
         if (root == NULL)
             return;
         inorderforBST(root->left, inorder);
@@ -27,14 +102,16 @@ public:
         inorderforBST(root->right, inorder);
     }
 
-    bool findTarget(TreeNode* root, int k) {
+    bool findTarget(TreeNode *root, int k)
+    {
         vector<int> inorder;
         inorderforBST(root, inorder); // sorted inorder
 
         int n = inorder.size();
         int l = 0, r = n - 1;
 
-        while (l < r) {
+        while (l < r)
+        {
             int sum = inorder[l] + inorder[r];
 
             if (sum == k)
