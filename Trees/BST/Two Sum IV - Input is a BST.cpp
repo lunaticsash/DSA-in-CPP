@@ -16,6 +16,8 @@ using namespace std;
 class BSTIterator
 {
     stack<TreeNode *> myStack;
+    //if reverse is true then it will give next largest element or before in inorder traversal
+    //else next smallest element or next in inorder traversal
     bool reverse;
 
 public:
