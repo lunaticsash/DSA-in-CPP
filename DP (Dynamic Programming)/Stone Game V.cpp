@@ -1,6 +1,101 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+//tc = O(n^2)
+class Solution {
+public:
+    int stoneGameV(vector<int>& stoneValue) {
+
+        int n = stoneValue.size();
+
+        // dp[i][j] = answer for interval [i...j]
+        vector<vector<int>> dp(n, vector<int>(n, 0));
+
+        // mx[i][j]:
+        // max(dp[i][k] + sum(i...k)) for k in [i...j]
+        //
+        // mx[j][i]:
+        // max(dp[k][j] + sum(k...j)) for k in [i...j]
+        vector<vector<int>> mx(n, vector<int>(n, 0));
+
+        // For one stone:
+        // dp[i][i] = 0
+        // mx[i][i] = stoneValue[i]
+        for (int i = 0; i < n; i++) {
+            mx[i][i] = stoneValue[i];
+        }
+
+        // j = right endpoint
+        for (int j = 1; j < n; j++) {
+
+            int mid = j;
+
+            // Sum of current right part
+            int rightSum = 0;
+
+            // Total sum of current interval
+            int totalSum = stoneValue[j];
+
+            // Move i from right -> left
+            for (int i = j - 1; i >= 0; i--) {
+
+                totalSum += stoneValue[i];
+
+                /*
+                    We maintain:
+
+                    [i ... mid] | [mid+1 ... j]
+
+                    rightSum = sum(mid+1 ... j)
+                */
+
+                while (mid > i &&
+                       (rightSum + stoneValue[mid]) * 2 <= totalSum) {
+
+                    rightSum += stoneValue[mid];
+                    mid--;
+                }
+
+                // Equal case:
+                // sum(i...mid) == sum(mid+1...j)
+                if (rightSum * 2 == totalSum) {
+                    dp[i][j] = mx[i][mid];
+                }
+
+                // Left side is smaller
+                if (mid != i) {
+                    dp[i][j] = max(dp[i][j],
+                                   mx[i][mid - 1]);
+                }
+
+                // Right side is smaller
+                if (mid != j) {
+                    dp[i][j] = max(dp[i][j],
+                                   mx[j][mid + 1]);
+                }
+
+                /*
+                    Update mx tables.
+
+                    sum(i...j) = totalSum
+                */
+
+                mx[i][j] = max(
+                    mx[i][j - 1],
+                    dp[i][j] + totalSum
+                );
+
+                mx[j][i] = max(
+                    mx[j][i + 1],
+                    dp[i][j] + totalSum
+                );
+            }
+        }
+
+        return dp[0][n - 1];
+    }
+};
+
 //Tabulation
 class Solution {
 public:
