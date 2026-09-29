@@ -9,7 +9,7 @@ public:
         int i = 0;
         string ans = "";
         unordered_map<string, string> mp;
-
+//
         for (auto it : knowledge) {
             mp[it[0]] = it[1];
         }
