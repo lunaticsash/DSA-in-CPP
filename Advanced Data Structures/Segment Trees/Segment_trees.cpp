@@ -16,6 +16,23 @@ void build(int ind, int low, int high, int a[], int seg[])
     seg[ind] = max(seg[2 * ind + 1], seg[2 * ind + 2]);
 }
 
+void updateQuery(int ind, int val, int low, int high, int i, int seg[] ){
+    if(low == high){
+        seg[ind] = val;
+        return;
+    }
+
+    int mid = (low + high) / 2;
+    if(i <= mid){
+        updateQuery(2 * ind + 1, val, low, mid, i, seg);
+    }
+    else{
+        updateQuery(2 * ind + 2, val, mid + 1, high, i, seg);
+    }
+
+    seg[ind] = max(seg[2 * ind + 1], seg[2 * ind + 2]);
+}
+
 int query(int ind, int low, int high, int l, int r, int seg[])
 {
     // completely outside or does not lies in the range
