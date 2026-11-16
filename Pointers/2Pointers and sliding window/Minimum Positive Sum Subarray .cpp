@@ -15,4 +15,4 @@ public:
         }
         return ans == INT_MAX ? -1 : ans;
     }
-};
+};// ok
