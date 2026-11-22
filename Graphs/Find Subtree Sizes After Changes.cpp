@@ -16,6 +16,7 @@ public:
 
         last[c] = old;
     }
+    //
 
     int calc(int u, vector<vector<int>>& tree) {
         ans[u] = 1;
