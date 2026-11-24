@@ -18,4 +18,4 @@ public:
             return 0;
         return prefix[n - 1] / prefix[n - 1 - k];
     }
-};
+};//ok
